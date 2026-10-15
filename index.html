@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#10131d">
+<title>Finanças a Dois</title>
+<style>
+:root{color-scheme:dark;--bg:#0d1018;--panel:#171b27;--panel2:#202637;--text:#f4f6fb;--muted:#9ba5bb;--accent:#8b7cff;--green:#45d6a1;--red:#ff7185;--line:#2b3245}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 10% 0%,#222044 0,transparent 34%),var(--bg);color:var(--text);font:15px system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh}button,input,select{font:inherit}button{cursor:pointer;border:0;border-radius:13px;padding:12px 15px;background:var(--accent);color:white;font-weight:700}button.secondary{background:var(--panel2);border:1px solid var(--line)}button.danger{background:#49212d;color:#ffdce2}.wrap{max-width:980px;margin:auto;padding:20px 16px 44px}.brand{display:flex;align-items:center;gap:12px;margin:8px 0 24px}.logo{display:grid;place-items:center;width:46px;height:46px;border-radius:15px;background:linear-gradient(135deg,#8b7cff,#4bd5b0);font-size:24px;color:#10131d;font-weight:900}.brand h1{font-size:21px;margin:0}.brand p{margin:3px 0 0;color:var(--muted);font-size:13px}.panel{background:rgba(23,27,39,.94);border:1px solid var(--line);border-radius:22px;padding:19px;margin-bottom:15px;box-shadow:0 12px 35px #0002}.auth{max-width:440px;margin:5vh auto}.eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#b9b1ff;font-weight:800}.h2{font-size:20px;margin:5px 0 7px}.muted{color:var(--muted)}.field{display:flex;flex-direction:column;gap:7px;margin:13px 0}.field label{font-size:13px;color:#c5cbe0}.field input,.field select{width:100%;border:1px solid var(--line);background:#101420;color:var(--text);padding:13px;border-radius:12px;outline:none}.field input:focus,.field select:focus{border-color:var(--accent)}.actions{display:flex;gap:9px;flex-wrap:wrap}.actions button{flex:1}.error{color:#ff9ba9;font-size:13px;white-space:pre-wrap}.success{color:var(--green);font-size:13px}.topline{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.metric{padding:16px;border-radius:17px;background:linear-gradient(145deg,#202638,#171b27);border:1px solid var(--line)}.metric .label{font-size:12px;color:var(--muted)}.metric .value{font-size:clamp(19px,4vw,27px);font-weight:800;margin-top:8px;overflow-wrap:anywhere}.green{color:var(--green)}.red{color:var(--red)}.tabs{display:flex;gap:8px;overflow:auto;margin:16px 0}.tabs button{white-space:nowrap}.tabs button.active{background:#37305f;border:1px solid #7164ce}.section-title{font-size:17px;margin:0 0 4px}.transaction{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}.transaction:last-child{border-bottom:0}.dot{width:40px;height:40px;border-radius:13px;background:var(--panel2);display:grid;place-items:center;font-size:18px}.txmain{flex:1;min-width:0}.txmain strong{display:block;overflow-wrap:anywhere}.txmain small{color:var(--muted)}.amount{font-weight:800;white-space:nowrap}.empty{text-align:center;padding:25px 8px;color:var(--muted)}.hidden{display:none!important}.notice{border:1px solid #5b4e9c;background:#24203f;padding:13px;border-radius:14px;color:#d8d3ff;font-size:13px;margin:12px 0}.footer{font-size:12px;color:var(--muted);text-align:center;margin:22px 0}.split{display:grid;grid-template-columns:1fr 1fr;gap:12px}.pill{font-size:11px;background:#2b3043;border-radius:999px;padding:5px 8px;color:#cbd2e5}.bill-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}@media(max-width:600px){.grid{grid-template-columns:1fr}.split{grid-template-columns:1fr}.panel{padding:15px}.wrap{padding:15px 12px 35px}.metric{display:flex;align-items:center;justify-content:space-between;gap:10px}.metric .value{margin:0;font-size:21px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="brand"><div class="logo">↗</div><div><h1>Finanças a Dois</h1><p>Seu dinheiro, organizado em família.</p></div></header>
+
+  <section id="authView" class="panel auth">
+    <div class="eyebrow">Bem-vindo</div><h2 class="h2">Entre na sua conta</h2>
+    <p class="muted">Cada pessoa usa seu próprio e-mail e senha. As finanças podem ser compartilhadas com um código familiar.</p>
+    <form id="authForm">
+      <div class="field"><label for="email">E-mail</label><input id="email" type="email" autocomplete="email" required placeholder="voce@email.com"></div>
+      <div class="field"><label for="password">Senha (mínimo 6 caracteres)</label><input id="password" type="password" autocomplete="current-password" minlength="6" required placeholder="Sua senha"></div>
+      <div class="actions"><button type="submit" id="loginBtn">Entrar</button><button type="button" class="secondary" id="signupBtn">Criar conta</button></div>
+    </form>
+    <p><button type="button" class="secondary" id="resetBtn" style="width:100%">Esqueci minha senha</button></p>
+    <p id="authMessage" class="error"></p>
+    <div class="notice">Para funcionar entre dois celulares, será necessário configurar seu projeto gratuito no Firebase e colar as chaves públicas de configuração no final deste arquivo. Não compartilhe sua senha com ninguém.</div>
+  </section>
+
+  <main id="appView" class="hidden">
+    <div class="panel">
+      <div class="topline"><div><div class="eyebrow">Painel financeiro</div><h2 class="h2" id="greeting">Olá!</h2><p class="muted" id="accountLabel"></p></div><button class="secondary" id="logoutBtn">Sair</button></div>
+      <div class="field"><label for="familyCode">Código familiar (use o mesmo nos dois celulares)</label><input id="familyCode" maxlength="40" placeholder="Ex.: casa-veiga-2026"><div class="actions"><button id="saveFamilyBtn">Salvar código</button><button id="copyFamilyBtn" class="secondary">Copiar código</button></div><small class="muted">Escolham um código difícil de adivinhar e compartilhem apenas entre vocês. O código sozinho não substitui as regras de segurança do Firebase.</small></div>
+    </div>
+    <div class="grid">
+      <div class="metric"><span class="label">Saldo do período</span><span class="value" id="balance">R$ 0,00</span></div>
+      <div class="metric"><span class="label">Receitas</span><span class="value green" id="incomeTotal">R$ 0,00</span></div>
+      <div class="metric"><span class="label">Despesas</span><span class="value red" id="expenseTotal">R$ 0,00</span></div>
+    </div>
+    <nav class="tabs"><button class="active" data-tab="transactions">Movimentações</button><button class="secondary" data-tab="bills">Contas a pagar</button><button class="secondary" data-tab="summary">Resumo por categoria</button><button class="secondary" data-tab="settings">Personalizar</button></nav>
+    <section id="transactionsTab">
+      <div class="panel">
+        <h3 class="section-title">Adicionar movimentação</h3><p class="muted">Registre entradas e saídas para entender para onde o dinheiro está indo.</p>
+        <form id="transactionForm">
+          <div class="split">
+            <div class="field"><label for="type">Tipo</label><select id="type"><option value="expense">Despesa</option><option value="income">Receita</option></select></div>
+            <div class="field"><label for="amount">Valor (R$)</label><input id="amount" type="number" min="0.01" step="0.01" required placeholder="0,00"></div>
+          </div>
+          <div class="split">
+            <div class="field"><label for="description">Descrição</label><input id="description" maxlength="100" required placeholder="Ex.: mercado"></div>
+            <div class="field"><label for="category">Categoria</label><select id="category"><option>Moradia</option><option>Mercado</option><option>Transporte</option><option>Saúde</option><option>Educação</option><option>Lazer</option><option>Contas e serviços</option><option>Cartão de crédito</option><option>Salário</option><option>Renda extra</option><option>Outros</option></select></div>
+          </div>
+          <div class="field"><label for="date">Data</label><input id="date" type="date" required></div>
+          <button type="submit" style="width:100%">＋ Salvar movimentação</button><p id="txMessage" class="error"></p>
+        </form>
+      </div>
+      <div class="panel"><div class="topline"><div><h3 class="section-title">Movimentações recentes</h3><p class="muted">Atualizadas pela nuvem quando o Firebase estiver configurado.</p></div><select id="filterType" style="max-width:150px;background:#101420;color:white;border:1px solid var(--line);border-radius:10px;padding:9px"><option value="all">Tudo</option><option value="expense">Despesas</option><option value="income">Receitas</option></select></div><div id="transactionList"><div class="empty">Configure o Firebase para começar.</div></div></div>
+    </section>
+    <section id="billsTab" class="hidden">
+      <div class="panel"><h3 class="section-title">Cadastrar conta a pagar</h3>
+        <form id="billForm"><div class="field"><label for="billName">Nome da conta</label><input id="billName" required maxlength="100" placeholder="Ex.: energia elétrica"></div>
+        <div class="split"><div class="field"><label for="billAmount">Valor (R$)</label><input id="billAmount" type="number" min="0.01" step="0.01" required></div><div class="field"><label for="billDue">Vencimento</label><input id="billDue" type="date" required></div></div>
+        <div class="field"><label for="billCategory">Categoria</label><select id="billCategory"><option>Moradia</option><option>Contas e serviços</option><option>Mercado</option><option>Transporte</option><option>Saúde</option><option>Cartão de crédito</option><option>Outros</option></select></div>
+        <div class="field"><label for="billRecurrence">Repetição da conta</label><select id="billRecurrence"><option value="none">Não se repete</option><option value="weekly">Toda semana</option><option value="monthly">Todo mês</option><option value="yearly">Todo ano</option></select></div>
+        <div class="field"><label for="billRepeatUntil">Repetir até (opcional)</label><input id="billRepeatUntil" type="date"><small class="muted">Deixe vazio para continuar gerando os próximos vencimentos enquanto a recorrência estiver ativa.</small></div>
+        <button type="submit" style="width:100%">＋ Adicionar conta</button><p id="billMessage" class="error"></p></form></div>
+      <div class="panel"><h3 class="section-title">Vencimentos</h3><div id="billList"><div class="empty">Nenhuma conta cadastrada.</div></div></div>
+    </section>
+    <section id="summaryTab" class="hidden"><div class="panel"><h3 class="section-title">Despesas por categoria</h3><p class="muted">Total das despesas registradas no período disponível.</p><div id="categorySummary"><div class="empty">Ainda não há dados.</div></div></div></section>
+    <section id="settingsTab" class="hidden">
+      <div class="panel">
+        <div class="eyebrow">Seu estilo</div><h3 class="section-title">Personalização visual</h3>
+        <div class="field"><label for="accentColor">Cor principal do aplicativo</label><input id="accentColor" type="color" value="#8b7cff" style="height:52px;padding:5px"></div>
+        <div class="field"><label for="soundMode">Sons do aplicativo</label><select id="soundMode"><option value="soft">Suave</option><option value="chime">Sininho</option><option value="off">Sem som</option></select></div>
+        <div class="actions"><button id="testSoundBtn">Testar som</button><button id="saveAppearanceBtn" class="secondary">Salvar personalização</button></div>
+        <p id="appearanceMessage" class="success"></p>
+      </div>
+      <div class="panel">
+        <div class="eyebrow">Lembretes</div><h3 class="section-title">Avisos de vencimento</h3>
+        <p class="muted">Você pode permitir notificações neste aparelho. Para receber avisos mesmo com o aplicativo fechado, será necessário transformar o site em um app instalável e configurar notificações push na nuvem.</p>
+        <div class="field"><label for="reminderDays">Avisar quantos dias antes do vencimento?</label><select id="reminderDays"><option value="0">No dia do vencimento</option><option value="1">1 dia antes</option><option value="3">3 dias antes</option><option value="7">7 dias antes</option></select></div>
+        <div class="actions"><button id="enableNotificationsBtn">Ativar notificações</button><button id="checkRemindersBtn" class="secondary">Verificar vencimentos</button></div>
+        <p id="reminderMessage" class="muted"></p>
+      </div>
+      <div class="panel">
+        <div class="eyebrow">WhatsApp</div><h3 class="section-title">Compartilhar comprovante</h3>
+        <p class="muted">Escolha uma imagem ou PDF do comprovante. Em aparelhos compatíveis, o menu de compartilhamento pode permitir enviá-lo pelo WhatsApp. Se não aparecer, você poderá abrir o WhatsApp e anexar o arquivo manualmente.</p>
+        <div class="field"><label for="receiptFile">Arquivo do comprovante (imagem ou PDF)</label><input id="receiptFile" type="file" accept="image/*,application/pdf"></div>
+        <div class="field"><label for="receiptText">Mensagem opcional</label><input id="receiptText" maxlength="300" placeholder="Ex.: Comprovante da conta de luz"></div>
+        <button id="shareReceiptBtn" style="width:100%">Compartilhar comprovante</button><p id="receiptMessage" class="muted"></p>
+        <div class="divider"></div>
+        <p class="muted">Também é possível abrir uma conversa no WhatsApp com o texto de um lembrete. O envio automático de mensagens exige a API oficial do WhatsApp Business e configuração adicional.</p>
+        <div class="field"><label for="whatsNumber">Número de WhatsApp (com código do país)</label><input id="whatsNumber" inputmode="tel" placeholder="Ex.: 5548999999999"></div>
+        <button id="saveWhatsBtn" class="secondary" style="width:100%">Salvar número neste aparelho</button>
+      </div>
+    </section>
+  </main>
+  <div class="footer">Finanças a Dois • Protótipo inicial • Seus dados financeiros são privados: configure as regras de acesso antes de usar com dados reais.</div>
+</div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, collection, addDoc, doc, setDoc, query, orderBy, onSnapshot, serverTimestamp, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+/* 1) Crie um projeto em https://console.firebase.google.com
+   2) Adicione um app Web e substitua os valores abaixo pelos do seu projeto.
+   3) Ative Authentication > Sign-in method > Email/Password e crie o Firestore.
+   4) Configure regras de segurança antes de inserir dados reais. */
+const firebaseConfig = {
+  apiKey: "AIzaSyD-KuUOdpmfdsgvSfoBfKTxEytbJ9H8Pq0",
+  authDomain: "financas-a-dois-d6207.firebaseapp.com",
+  projectId: "financas-a-dois-d6207",
+  storageBucket: "financas-a-dois-d6207.firebasestorage.app",
+  messagingSenderId: "333149898518",
+  appId: "1:333149898518:web:9a8bc24decc55651c37237",
+  measurementId: "G-PLXH5RJ49P"
+};
+const configured = Boolean(firebaseConfig.apiKey && firebaseConfig.projectId);
+let auth, db, currentUser, stopTx, stopBills, transactions=[], bills=[], family="";
+const $ = id => document.getElementById(id);
+const brl = n => new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(n)||0);
+const today = new Date().toLocaleDateString('en-CA');
+$('date').value=today; $('billDue').value=today;
+function msg(id,text,isOk=false){$(id).textContent=text;$(id).className=isOk?'success':'error'}
+function showApp(on){$('authView').classList.toggle('hidden',on);$('appView').classList.toggle('hidden',!on)}
+function safeFamily(){return family.trim().toLowerCase().replace(/[^a-z0-9_-]/g,'').slice(0,40)}
+function basePath(){if(!family)throw new Error('Digite e salve o código familiar primeiro.');return `households/${safeFamily()}`}
+function stopListeners(){if(stopTx)stopTx();if(stopBills)stopBills();stopTx=stopBills=null}
+function listenData(){
+ stopListeners(); if(!db||!currentUser||!family)return;
+ try{
+  stopTx=onSnapshot(query(collection(db,basePath(),'transactions'),orderBy('createdAt','desc')),snap=>{transactions=snap.docs.map(d=>({id:d.id,...d.data()}));renderTransactions();renderMetrics();renderSummary()},err=>msg('txMessage','Erro ao carregar movimentações: '+err.message));
+  stopBills=onSnapshot(query(collection(db,basePath(),'bills'),orderBy('dueDate','asc')),snap=>{bills=snap.docs.map(d=>({id:d.id,...d.data()}));renderBills();ensureNextRecurringBills().catch(err=>msg('billMessage','Erro ao gerar próxima recorrência: '+err.message))},err=>msg('billMessage','Erro ao carregar contas: '+err.message));
+ }catch(e){msg('txMessage',e.message)}
+}
+function renderMetrics(){const inc=transactions.filter(t=>t.type==='income').reduce((s,t)=>s+Number(t.amount),0),exp=transactions.filter(t=>t.type==='expense').reduce((s,t)=>s+Number(t.amount),0);$('incomeTotal').textContent=brl(inc);$('expenseTotal').textContent=brl(exp);$('balance').textContent=brl(inc-exp);$('balance').className='value '+(inc-exp<0?'red':'green')}
+function renderTransactions(){const list=$('transactionList'),filter=$('filterType').value,items=transactions.filter(t=>filter==='all'||t.type===filter);if(!items.length){list.innerHTML='<div class="empty">Nenhuma movimentação por aqui ainda.</div>';return}list.innerHTML=items.map(t=>`<div class="transaction"><div class="dot">${t.type==='income'?'↙':'↗'}</div><div class="txmain"><strong>${escapeHtml(t.description||'Sem descrição')}</strong><small>${escapeHtml(t.category||'Outros')} · ${escapeHtml(t.date||'')}</small></div><div class="amount ${t.type==='income'?'green':'red'}">${t.type==='income'?'+':'−'} ${brl(t.amount)}<br><button class="danger" style="padding:5px 8px;font-size:11px;margin-top:5px" data-delete-tx="${t.id}">Excluir</button></div></div>`).join('')}
+
+function addPeriod(dateStr, recurrence){
+ const d=new Date(dateStr+'T12:00:00');
+ if(recurrence==='weekly')d.setDate(d.getDate()+7);
+ else if(recurrence==='monthly'){const day=d.getDate();d.setDate(1);d.setMonth(d.getMonth()+1);const last=new Date(d.getFullYear(),d.getMonth()+1,0).getDate();d.setDate(Math.min(day,last))}
+ else if(recurrence==='yearly'){const month=d.getMonth(),day=d.getDate();d.setFullYear(d.getFullYear()+1);if(d.getMonth()!==month)d.setDate(0);if(d.getDate()!==day&&d.getMonth()===month)d.setDate(Math.min(day,new Date(d.getFullYear(),month+1,0).getDate()))}
+ return d.toLocaleDateString('en-CA');
+}
+async function ensureNextRecurringBills(){
+ if(!db||!currentUser||!family||!bills.length)return;
+ for(const b of bills){
+  if(!b.paid||!b.recurrence||b.recurrence==='none'||b.active===false||b.nextCreated)return;
+  const next=addPeriod(b.dueDate,b.recurrence);
+  if(b.repeatUntil&&next>b.repeatUntil){await updateDoc(doc(db,basePath(),'bills',b.id),{active:false,nextCreated:true});continue}
+  const duplicate=bills.some(x=>x.seriesId===(b.seriesId||b.id)&&x.dueDate===next);
+  if(!duplicate){
+   await addDoc(collection(db,basePath(),'bills'),{name:b.name,amount:Number(b.amount),dueDate:next,category:b.category||'Outros',paid:false,recurrence:b.recurrence,repeatUntil:b.repeatUntil||'',seriesId:b.seriesId||b.id,active:true,nextCreated:false,createdBy:currentUser.uid,createdAt:serverTimestamp()});
+  }
+  await updateDoc(doc(db,basePath(),'bills',b.id),{nextCreated:true});
+}
+}
+
+function renderBills(){const list=$('billList');if(!bills.length){list.innerHTML='<div class="empty">Nenhuma conta cadastrada. Adicione seus vencimentos acima.</div>';return}list.innerHTML=bills.map(b=>{const overdue=b.dueDate<today&&!b.paid;return `<div class="bill-row"><div style="flex:1"><strong>${escapeHtml(b.name)}</strong><div class="muted" style="font-size:12px">${escapeHtml(b.category||'Outros')} · vence ${escapeHtml(b.dueDate)} ${overdue?'<span class="red">· VENCIDA</span>':''}</div><span class="pill">${b.paid?'Paga':'Pendente'}</span> ${b.recurrence&&b.recurrence!=='none'?`<span class="pill">Recorrente: ${b.recurrence==='weekly'?'semanal':b.recurrence==='monthly'?'mensal':'anual'}</span>`:''}</div><div style="text-align:right"><strong>${brl(b.amount)}</strong><div class="actions" style="margin-top:7px;justify-content:flex-end;flex-wrap:wrap"><button class="secondary" style="padding:7px;font-size:11px" data-share-bill="${b.id}">WhatsApp</button><button class="secondary" style="padding:7px;font-size:11px" data-toggle-bill="${b.id}">${b.paid?'Reabrir':'Marcar paga'}</button>${b.recurrence&&b.recurrence!=='none'?`<button class="secondary" style="padding:7px;font-size:11px" data-stop-rec="${b.id}">${b.active===false?'Reativar repetição':'Pausar repetição'}</button>`:''}<button class="danger" style="padding:7px;font-size:11px" data-delete-bill="${b.id}">Excluir</button></div></div></div>`}).join('')}
+function renderSummary(){const totals={};transactions.filter(t=>t.type==='expense').forEach(t=>totals[t.category||'Outros']=(totals[t.category||'Outros']||0)+Number(t.amount));const entries=Object.entries(totals).sort((a,b)=>b[1]-a[1]);$('categorySummary').innerHTML=entries.length?entries.map(([c,v])=>`<div style="padding:12px 0;border-bottom:1px solid var(--line)"><div class="topline"><strong>${escapeHtml(c)}</strong><strong>${brl(v)}</strong></div><div style="height:7px;background:#2b3245;border-radius:8px;margin-top:9px;overflow:hidden"><div style="height:100%;width:${Math.max(3,v/Math.max(...entries.map(x=>x[1]))*100)}%;background:linear-gradient(90deg,#8b7cff,#45d6a1);border-radius:8px"></div></div></div>`).join(''):'<div class="empty">Adicione despesas para ver seu resumo.</div>'}
+function escapeHtml(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+if(configured){const app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app);onAuthStateChanged(auth,user=>{currentUser=user;if(user){showApp(true);$('greeting').textContent='Olá!';$('accountLabel').textContent=user.email||'';family=localStorage.getItem('financas_family_'+user.uid)||'';$('familyCode').value=family;listenData()}else{stopListeners();showApp(false)}})}else{msg('authMessage','Antes de entrar, configure o Firebase no final do arquivo. Depois, recarregue esta página.',false)}
+$('authForm').addEventListener('submit',async e=>{e.preventDefault();if(!configured)return msg('authMessage','Configure o Firebase primeiro.');msg('authMessage','Entrando...');try{await signInWithEmailAndPassword(auth,$('email').value.trim(),$('password').value);msg('authMessage','')}catch(err){msg('authMessage',authError(err))}});
+$('signupBtn').addEventListener('click',async()=>{if(!configured)return msg('authMessage','Configure o Firebase primeiro.');if($('password').value.length<6)return msg('authMessage','Use uma senha com pelo menos 6 caracteres.');try{await createUserWithEmailAndPassword(auth,$('email').value.trim(),$('password').value);msg('authMessage','Conta criada com sucesso!',true)}catch(err){msg('authMessage',authError(err))}});
+$('resetBtn').addEventListener('click',async()=>{if(!configured)return msg('authMessage','Configure o Firebase primeiro.');if(!$('email').value.trim())return msg('authMessage','Digite seu e-mail acima para receber o link.');try{await sendPasswordResetEmail(auth,$('email').value.trim());msg('authMessage','Se o endereço estiver cadastrado, você receberá um e-mail para redefinir a senha.',true)}catch(err){msg('authMessage',authError(err))}});
+function authError(err){return ({'auth/invalid-credential':'E-mail ou senha incorretos.','auth/email-already-in-use':'Este e-mail já tem uma conta.','auth/weak-password':'A senha precisa ter pelo menos 6 caracteres.','auth/invalid-email':'Confira o formato do e-mail.','auth/network-request-failed':'Falha de conexão. Confira sua internet.'})[err.code]||err.message}
+$('logoutBtn').addEventListener('click',()=>signOut(auth));
+$('saveFamilyBtn').addEventListener('click',()=>{family=$('familyCode').value.trim().toLowerCase().replace(/[^a-z0-9_-]/g,'').slice(0,40);if(family.length<4)return alert('Use um código com pelo menos 4 caracteres.');if(family!=='financas-a-dois')return alert('Para as regras de segurança atuais, use exatamente o código familiar: financas-a-dois');localStorage.setItem('financas_family_'+currentUser.uid,family);$('familyCode').value=family;listenData();alert('Código salvo neste celular. Agora teste primeiro se as movimentações e contas carregam sem erro.')});
+$('copyFamilyBtn').addEventListener('click',async()=>{if(!$('familyCode').value.trim())return alert('Digite um código primeiro.');try{await navigator.clipboard.writeText($('familyCode').value.trim());alert('Código copiado.')}catch{alert('Código: '+$('familyCode').value.trim())}});
+$('transactionForm').addEventListener('submit',async e=>{e.preventDefault();try{const path=basePath();await addDoc(collection(db,path,'transactions'),{type:$('type').value,amount:Number($('amount').value),description:$('description').value.trim(),category:$('category').value,date:$('date').value,createdBy:currentUser.uid,createdAt:serverTimestamp()});$('transactionForm').reset();$('date').value=today;msg('txMessage','Movimentação salva.',true)}catch(err){msg('txMessage',err.message)}});
+$('billForm').addEventListener('submit',async e=>{e.preventDefault();try{await addDoc(collection(db,basePath(),'bills'),{name:$('billName').value.trim(),amount:Number($('billAmount').value),dueDate:$('billDue').value,category:$('billCategory').value,paid:false,recurrence:$('billRecurrence').value,repeatUntil:$('billRepeatUntil').value||'',seriesId:'',active:true,nextCreated:false,createdBy:currentUser.uid,createdAt:serverTimestamp()});$('billForm').reset();$('billDue').value=today;msg('billMessage','Conta cadastrada.',true)}catch(err){msg('billMessage',err.message)}});
+$('filterType').addEventListener('change',renderTransactions);
+document.querySelectorAll('[data-tab]').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('[data-tab]').forEach(b=>{b.classList.toggle('active',b===btn);b.classList.toggle('secondary',b!==btn)});['transactions','bills','summary','settings'].forEach(t=>$(t+'Tab').classList.toggle('hidden',t!==btn.dataset.tab))}));
+
+// Personalização local deste aparelho
+function applyAppearance(){
+ const color=localStorage.getItem('financas_accent')||'#8b7cff';
+ document.documentElement.style.setProperty('--accent',color);
+ $('accentColor').value=color;
+ $('soundMode').value=localStorage.getItem('financas_sound')||'soft';
+ $('reminderDays').value=localStorage.getItem('financas_reminder_days')||'1';
+ $('whatsNumber').value=localStorage.getItem('financas_whats_number')||'';
+}
+applyAppearance();
+$('saveAppearanceBtn').addEventListener('click',()=>{
+ localStorage.setItem('financas_accent',$('accentColor').value);
+ localStorage.setItem('financas_sound',$('soundMode').value);
+ localStorage.setItem('financas_reminder_days',$('reminderDays').value);
+ applyAppearance();msg('appearanceMessage','Personalização salva neste aparelho.',true);playAppSound();
+});
+$('accentColor').addEventListener('input',e=>document.documentElement.style.setProperty('--accent',e.target.value));
+function playAppSound(){
+ const mode=localStorage.getItem('financas_sound')||'soft';if(mode==='off')return;
+ try{const Ctx=window.AudioContext||window.webkitAudioContext;if(!Ctx)return;const ctx=new Ctx();[0,mode==='chime'?0.14:0.09].forEach((delay,i)=>{const osc=ctx.createOscillator(),gain=ctx.createGain();osc.type='sine';osc.frequency.value=mode==='chime'?(i?1046:784):(i?660:523);gain.gain.setValueAtTime(0.0001,ctx.currentTime+delay);gain.gain.exponentialRampToValueAtTime(0.12,ctx.currentTime+delay+0.02);gain.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+delay+0.22);osc.connect(gain);gain.connect(ctx.destination);osc.start(ctx.currentTime+delay);osc.stop(ctx.currentTime+delay+0.24)});setTimeout(()=>ctx.close(),700)}catch{}
+}
+$('testSoundBtn').addEventListener('click',()=>{localStorage.setItem('financas_sound',$('soundMode').value);playAppSound()});
+$('enableNotificationsBtn').addEventListener('click',async()=>{
+ if(!('Notification' in window)){msg('reminderMessage','Este navegador não oferece notificações neste modo. Experimente instalar o app como PWA.',false);return}
+ try{const permission=await Notification.requestPermission();msg('reminderMessage',permission==='granted'?'Notificações permitidas neste navegador. Para alertas com o app fechado, ainda precisamos configurar push notifications.':'Permissão não concedida. Você pode mudar isso nas configurações do navegador.',permission==='granted')}catch(e){msg('reminderMessage','Não foi possível pedir permissão neste navegador.',false)}
+});
+$('checkRemindersBtn').addEventListener('click',()=>{
+ const days=Number($('reminderDays').value);const target=new Date();target.setDate(target.getDate()+days);const targetDate=target.toLocaleDateString('en-CA');
+ const due=bills.filter(b=>!b.paid&&b.dueDate<=targetDate);
+ if(!due.length){msg('reminderMessage','Não há contas pendentes vencendo até '+targetDate+'.',true);return}
+ const text=due.map(b=>`${b.name}: ${brl(b.amount)} (vence ${b.dueDate})`).join('\\n');
+ msg('reminderMessage','Contas pendentes encontradas:\\n'+text,true);
+ if('Notification' in window&&Notification.permission==='granted')new Notification('Lembrete de contas',{body:due.length+' conta(s) pendente(s) até '+targetDate});
+ playAppSound();
+});
+$('saveWhatsBtn').addEventListener('click',()=>{const n=$('whatsNumber').value.replace(/\D/g,'');localStorage.setItem('financas_whats_number',n);$('whatsNumber').value=n;msg('receiptMessage','Número salvo somente neste aparelho.',true)});
+$('shareReceiptBtn').addEventListener('click',async()=>{
+ const file=$('receiptFile').files[0],note=$('receiptText').value.trim();
+ if(!file){msg('receiptMessage','Escolha primeiro uma imagem ou PDF do comprovante.');return}
+ try{
+  if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
+   await navigator.share({title:'Comprovante financeiro',text:note||'Comprovante',files:[file]});msg('receiptMessage','Menu de compartilhamento aberto.',true);return
+  }
+  const number=localStorage.getItem('financas_whats_number')||'';
+  const url='https://wa.me/'+number+'?text='+encodeURIComponent(note||'Olá, estou enviando um comprovante.');
+  window.open(url,'_blank','noopener');
+  msg('receiptMessage','O WhatsApp foi aberto. Anexe manualmente o arquivo '+file.name+' na conversa.',true);
+ }catch(e){msg('receiptMessage','Compartilhamento cancelado ou indisponível. Você pode abrir o WhatsApp e anexar o arquivo manualmente.',false)}
+});
+
+document.addEventListener('click',async e=>{const tx=e.target.closest('[data-delete-tx]');const bill=e.target.closest('[data-delete-bill]');const toggle=e.target.closest('[data-toggle-bill]');const shareBill=e.target.closest('[data-share-bill]');const stopRec=e.target.closest('[data-stop-rec]');try{if(stopRec){const b=bills.find(x=>x.id===stopRec.dataset.stopRec);if(b)await updateDoc(doc(db,basePath(),'bills',b.id),{active:b.active===false})}if(shareBill){const b=bills.find(x=>x.id===shareBill.dataset.shareBill);if(b){const n=localStorage.getItem('financas_whats_number')||'';const text=`Lembrete de conta: ${b.name}\\nValor: ${brl(b.amount)}\\nVencimento: ${b.dueDate}\\nStatus: ${b.paid?'Paga':'Pendente'}`;window.open('https://wa.me/'+n+'?text='+encodeURIComponent(text),'_blank','noopener')}}if(tx&&confirm('Excluir esta movimentação?'))await deleteDoc(doc(db,basePath(),'transactions',tx.dataset.deleteTx));if(bill&&confirm('Excluir esta conta?'))await deleteDoc(doc(db,basePath(),'bills',bill.dataset.deleteBill));if(toggle){const b=bills.find(x=>x.id===toggle.dataset.toggleBill);if(b)await updateDoc(doc(db,basePath(),'bills',b.id),{paid:!b.paid})}}catch(err){alert('Não foi possível concluir: '+err.message)}});
+</script>
+</body>
+</html>
